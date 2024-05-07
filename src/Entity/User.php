@@ -40,13 +40,13 @@ class User
     #[ORM\Column(length: 30, nullable: true)]
     private ?string $studyingClass = null;
 
-    #[ORM\Column(length: 20, nullable: true)]
+    #[ORM\Column(length: 20, nullable: true, options: ["default" => "undefined"])]
     private ?string $favorite_role = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["default" => 0])]
     private ?int $pointsNumber = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["default" => new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris'))])]
     private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
@@ -61,22 +61,22 @@ class User
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $banned_at = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["default" => 0])]
     private ?bool $is_verified = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["default" => 0])]
     private ?bool $is_warned = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["default" => 0])]
     private ?bool $is_banned = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["default" => 0])]
     private ?bool $is_password_requested = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["default" => 0])]
     private ?int $passwordNumberRequest = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["default" => 0])]
     private ?int $warnNumber = null;
 
     #[ORM\Column]
@@ -100,7 +100,7 @@ class User
     #[ORM\OneToMany(targetEntity: ItemUserCollection::class, mappedBy: 'id_user')]
     private Collection $itemUserCollections;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["default" => 'ROLE_USER'])]
     private array $role = [];
 
     /**

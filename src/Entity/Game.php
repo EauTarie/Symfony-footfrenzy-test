@@ -16,7 +16,7 @@ class Game
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["default" => new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris'))])]
     private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
@@ -25,13 +25,13 @@ class Game
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $begin_at = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $finished_at = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["default" => 0])]
     private ?bool $is_waiting = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["default" => 0])]
     private ?bool $is_pending = null;
 
     #[ORM\Column]

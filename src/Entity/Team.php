@@ -19,16 +19,16 @@ class Team
     #[ORM\Column(length: 75)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 35, nullable: true)]
+    #[ORM\Column(length: 75, nullable: true)]
     private ?string $slogan = null;
 
-    #[ORM\Column(length: 100, nullable: true)]
+    #[ORM\Column(length: 150, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["default" => 0])]
     private ?int $pointsNumber = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["default" => new \DateTimeImmutable('now', new  \DateTimeZone('Europe/Paris'))])]
     private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
@@ -37,7 +37,7 @@ class Team
     #[ORM\Column]
     private ?bool $is_recruiting = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["default" => 0])]
     private ?bool $is_dissolute = null;
 
     #[ORM\Column]

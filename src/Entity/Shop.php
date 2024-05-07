@@ -25,22 +25,22 @@ class Shop
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?int $price = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, options: ["default" => "no path"])]
     private ?string $path = null;
 
-    #[ORM\Column(length: 50, nullable: true)]
+    #[ORM\Column(length: 50, nullable: true, options: ["default" => 'no condition'])]
     private ?string $howToUnlock = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["default" => new \DateTimeImmutable('now', new \DateTimeZone("Europe/Paris"))])]
     private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updated_at = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["default" => 0])]
     private ?bool $is_available = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["default" => 0])]
     private ?bool $is_exclusive = null;
 
     /**

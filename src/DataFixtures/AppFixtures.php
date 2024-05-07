@@ -2,6 +2,9 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Shop;
+use App\Entity\Team;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -15,8 +18,10 @@ class AppFixtures extends Fixture
                 'firstname' => 'Tarie',
                 'email' => 'eautarie@example.com',
                 'username' => 'Eau Tarie',
-                'passsword' => 'eautarie',
-                'role' => 'ROLE_ADMIN',
+                'password' => 'eautarie',
+                'workingAt' => 'CCI',
+                'studyAt' => 'Devops',
+                'role' => ['["ROLE_ADMIN"]'],
             ],
             [
                 'lastname' => 'Doe',
@@ -24,6 +29,8 @@ class AppFixtures extends Fixture
                 'email' => 'johndoe@example.com',
                 'password' => 'johndoepassword',
                 'username' => 'The King John Doe',
+                'workingAt' => 'The Place by CCI',
+                'studyAt' => 'Dirigeant',
                 'role' => 'ROLE_USER',
             ],
             [
@@ -32,6 +39,8 @@ class AppFixtures extends Fixture
                 'email' => 'sealiconvalley@example.com',
                 'username' => 'Seal\'IconValley',
                 'password' => 'sealiconvalley',
+                'workingAt' => 'The Place by CCI',
+                'studyAt' => 'coworker',
                 'role' => 'ROLE_ADMIN',
             ],
             [
@@ -40,6 +49,7 @@ class AppFixtures extends Fixture
                 'email' => 'eaulympique@example.com',
                 'username' => 'eaulympique',
                 'password' => 'eaulympique',
+                'workingAt' => 'CCI',
                 'role' => 'ROLE_USER',
             ],
             [
@@ -48,6 +58,7 @@ class AppFixtures extends Fixture
                 'email' => 'eaubut@example.com',
                 'username' => 'eaubut',
                 'password' => 'eaubut',
+                'workingAt' => 'CCI',
                 'role' => 'ROLE_USER',
             ]
         ];
@@ -60,7 +71,7 @@ class AppFixtures extends Fixture
             ],
             [
                 'name' => 'les pelottes de laines',
-                'slogan' => 'venez jouer avec nos pelotes de laine',
+                'slogan' => 'pelotes de laine',
                 'description' => 'On est la team des CHEH qui jouent avec les pelotes de laines',
             ],
             [
@@ -86,7 +97,7 @@ class AppFixtures extends Fixture
             [
             'name' => 'Les Glisseurs de Balle',
             'slogan' => 'Naviguez vers la victoire !',
-            'description' => 'Une équipe agile et rapide, capable de glisser la balle dans le but adverse avec précision et finesse.',
+            'description' => 'Une équipe agile et rapide, capable de glisser la balle dans le but adverse avec précision & finesse',
             ]
         ];
 
@@ -141,7 +152,53 @@ class AppFixtures extends Fixture
             ],
         ];
 
+        for ($i = 0; $i < count($userDataArray); $i++) {
+            $user = new User();
+            $user->setLastname($userDataArray[$i]['lastname']);
+            $user->setFirstname($userDataArray[$i]['firstname']);
+            $user->setEmail($userDataArray[$i]['email']);
+            $user->setUsername($userDataArray[$i]['username']);
+            $user->setPassword($userDataArray[$i]['password']);
+            $user->setWorkingLocation($userDataArray[$i]['workingAt']);
 
-        $manager->flush();
+            $user->setPointsNumber(rand(10,1000));
+//            $user->setRole(["ROLE_ADMIN"]);
+            $user->setCreatedAt(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')));
+            $user->setVerified(rand(0,1));
+            $user->setWarned(0);
+            $user->setBanned(0);
+            $user->setPasswordRequested(0);
+            $user->setPasswordNumberRequest(rand(1,20));
+            $user->setWarnNumber(rand(1,50));
+            $user->setTotalPointsEarned(rand(1000,2000));
+            $manager->persist($user);
+        };
+
+        for($i = 0; $i < count($teamDataArray); $i++) {
+            $team = new Team();
+            $team->setName($teamDataArray[$i]['name']);
+            $team->setSlogan($teamDataArray[$i]['slogan']);
+            $team->setDescription($teamDataArray[$i]['description']);
+            $team->setPointsNumber(rand(10,1000));
+            $team->setCreatedAt(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')));
+            $team->setRecruiting(rand(0,1));
+            $team->setDissolute(0);
+            $team->setTotalPointEarned(rand(1000,2000));
+            $manager->persist($team);
+        };
+
+        for ($i = 0; $i < count($shopDataArray); $i++) {
+            $shop = new Shop();
+            $shop->setName($shopDataArray[$i]['name']);
+            $shop->setDescription($shopDataArray[$i]['description']);
+            $shop->setPrice($shopDataArray[$i]['price']);
+            $shop->setPath("no path");
+            $shop->setHowToUnlock($shopDataArray[$i]['condition']);
+            $shop->setCreatedAt(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')));
+            $shop->setAvailable(rand(0,1));
+            $shop->setExclusive(rand(0,1));
+            $manager->persist($shop);
+        };
+        $manager->flush($user, $team, $shop);
     }
 }
